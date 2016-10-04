@@ -467,7 +467,7 @@ void CDBEnv::Flush(bool fShutdown)
                 CloseDb(strFile);
                 printf("%s checkpoint\n", strFile.c_str());
                 dbenv.txn_checkpoint(0, 0, 0);
-                if (!IsChainFile(strFile) || fDetachDB) {
+                if (!IsChainFile(strFile)) {
                     printf("%s detach\n", strFile.c_str());
                     if (!fMockDb)
                         dbenv.lsn_reset(strFile.c_str(), 0);
