@@ -2450,6 +2450,30 @@ bool LoadBlockIndex(bool fAllowNew)
         // Genesis block
 
         const char* pszTimestamp = "Bernie Sanders for President.";
+/* MainNet
+{
+  "hash": "00000b98b117248cc54f5d44dc4c43a1b38dfc77b663610c6345464e338a4d7e",
+  "size": 179,
+  "height": 0,
+  "version": 1,
+  "merkleroot": "0990a9b1eeda46cbc58e152b3e539cddd65391fb61dc7e83ed6c108c9f5527bb",
+  "mint": 0,
+  "time": 1433270743,
+  "nonce": 174553,
+  "bits": "1e0fffff",
+  "difficulty": 0.00024414,
+  "blocktrust": "100001",
+  "chaintrust": "100001",
+  "nextblockhash": "000006271daafee2258507e9402490fddfbae36aa66707b889d4cfb6f9d9f2ab",
+  "flags": "proof-of-work stake-modifier",
+  "proofhash": "00000b98b117248cc54f5d44dc4c43a1b38dfc77b663610c6345464e338a4d7e",
+  "entropybit": 0,
+  "modifier": "0000000000000000",
+  "tx": [
+    "0990a9b1eeda46cbc58e152b3e539cddd65391fb61dc7e83ed6c108c9f5527bb"
+  ]
+}
+*/
         CTransaction txNew;
         txNew.nTime = 1433270743;
         txNew.vin.resize(1);
