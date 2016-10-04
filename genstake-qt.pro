@@ -12,16 +12,16 @@ greaterThan(QT_MAJOR_VERSION, 4) {
 }
 
 win32 {
-    BOOST_LIB_SUFFIX=-mgw49-mt-s-1_55
-    BOOST_INCLUDE_PATH=C:/deps/boost_1_55_0
-    BOOST_LIB_PATH=C:/deps/boost_1_55_0/stage/lib
+    BOOST_LIB_SUFFIX=-mgw49-mt-s-1_57
+    BOOST_INCLUDE_PATH=C:/deps/boost_1_57_0
+    BOOST_LIB_PATH=C:/deps/boost_1_57_0/stage/lib
     BDB_INCLUDE_PATH=C:/deps/db-4.8.30.NC/build_unix
     BDB_LIB_PATH=C:/deps/db-4.8.30.NC/build_unix
-    OPENSSL_INCLUDE_PATH=C:/deps/openssl-1.0.1l/include
-    OPENSSL_LIB_PATH=C:/deps/openssl-1.0.1l
+    OPENSSL_INCLUDE_PATH=C:/deps/openssl-1.0.1t/include
+    OPENSSL_LIB_PATH=C:/deps/openssl-1.0.1t
     MINIUPNPC_INCLUDE_PATH=C:/deps
-    LIBPNG_INCLUDE_PATH=C:/deps/libpng-1.6.12
-    LIBPNG_LIB_PATH=C:/deps/libpng-1.6.12/.libs
+    LIBPNG_INCLUDE_PATH=C:/deps/libpng-1.6.23
+    LIBPNG_LIB_PATH=C:/deps/libpng-1.6.13/.libs
     MINIUPNPC_LIB_PATH=C:/deps/miniupnpc
     QRENCODE_INCLUDE_PATH=C:/deps/qrencode-3.4.4
     QRENCODE_LIB_PATH=C:/deps/qrencode-3.4.4/.libs
