@@ -112,17 +112,17 @@ CoinControlDialog::CoinControlDialog(QWidget *parent) :
 	// custom Coin Control Selection Button (select less than)
     connect(ui->pushButtonCustomCC, SIGNAL(clicked()), this, SLOT(customSelectCoins()));
 
-    ui->treeWidget->setColumnWidth(COLUMN_CHECKBOX, 84);
-    ui->treeWidget->setColumnWidth(COLUMN_AMOUNT, 80);
-	ui->treeWidget->setColumnWidth(COLUMN_CONFIRMATIONS, 80);
-	ui->treeWidget->setColumnWidth(COLUMN_AGE, 50);
-	ui->treeWidget->setColumnWidth(COLUMN_POTENTIALSTAKE, 80);
+    ui->treeWidget->setColumnWidth(COLUMN_CHECKBOX, 50);
+    ui->treeWidget->setColumnWidth(COLUMN_AMOUNT, 100);
+	ui->treeWidget->setColumnWidth(COLUMN_CONFIRMATIONS, 85);
+	ui->treeWidget->setColumnWidth(COLUMN_AGE, 55);
+	ui->treeWidget->setColumnWidth(COLUMN_POTENTIALSTAKE, 90);
 	ui->treeWidget->setColumnWidth(COLUMN_TIMEESTIMATE, 110);
-	ui->treeWidget->setColumnWidth(COLUMN_WEIGHT, 50);
+	ui->treeWidget->setColumnWidth(COLUMN_WEIGHT, 70);
     ui->treeWidget->setColumnWidth(COLUMN_LABEL, 85);
-    ui->treeWidget->setColumnWidth(COLUMN_ADDRESS, 200);
-    ui->treeWidget->setColumnWidth(COLUMN_DATE, 100);
-    ui->treeWidget->setColumnWidth(COLUMN_PRIORITY, 75);
+    ui->treeWidget->setColumnWidth(COLUMN_ADDRESS, 125);
+    ui->treeWidget->setColumnWidth(COLUMN_DATE, 110);
+    ui->treeWidget->setColumnWidth(COLUMN_PRIORITY, 100);
 	ui->treeWidget->setColumnHidden(COLUMN_AGE_int64_t, true);
 	ui->treeWidget->setColumnHidden(COLUMN_POTENTIALSTAKE_int64_t, true);
     ui->treeWidget->setColumnHidden(COLUMN_TXHASH, true);         // store transacton hash in this column, but dont show it

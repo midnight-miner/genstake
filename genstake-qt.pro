@@ -1,22 +1,18 @@
 TEMPLATE = app
 TARGET = GenStake-qt
-macx:TARGET = "BATA-Qt"
-VERSION = 1.0.5.0
+VERSION = 1.0.4.0
 INCLUDEPATH += src src/json src/qt src/qt/plugins/mrichtexteditor
 DEFINES += QT_GUI BOOST_THREAD_USE_LIB BOOST_SPIRIT_THREADSAFE
 CONFIG += no_include_pwd
 CONFIG += thread
-CONFIG += static
 
-QT += core gui network
 greaterThan(QT_MAJOR_VERSION, 4) {
-    QT += widgets
+    QT += widgets network
     DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0
 }
 
 win32 {
     BOOST_LIB_SUFFIX=-mgw49-mt-s-1_57
-    BOOST_THREAD_LIB_SUFFIX=-mgw49-mt-s-1_57
     BOOST_INCLUDE_PATH=C:/deps/boost_1_57_0
     BOOST_LIB_PATH=C:/deps/boost_1_57_0/stage/lib
     BDB_INCLUDE_PATH=C:/deps/db-4.8.30.NC/build_unix
@@ -24,9 +20,9 @@ win32 {
     OPENSSL_INCLUDE_PATH=C:/deps/openssl-1.0.1t/include
     OPENSSL_LIB_PATH=C:/deps/openssl-1.0.1t
     MINIUPNPC_INCLUDE_PATH=C:/deps
-    MINIUPNPC_LIB_PATH=C:/deps/miniupnpc
     LIBPNG_INCLUDE_PATH=C:/deps/libpng-1.6.23
     LIBPNG_LIB_PATH=C:/deps/libpng-1.6.13/.libs
+    MINIUPNPC_LIB_PATH=C:/deps/miniupnpc
     QRENCODE_INCLUDE_PATH=C:/deps/qrencode-3.4.4
     QRENCODE_LIB_PATH=C:/deps/qrencode-3.4.4/.libs
 }
@@ -48,34 +44,20 @@ UI_DIR = build
 build_macosx64 {
     QMAKE_TARGET_BUNDLE_PREFIX = com.getgenstake
     BOOST_LIB_SUFFIX=-mt
-    BOOST_INCLUDE_PATH=/usr/local/include
-    BOOST_LIB_PATH=/usr/local/lib
 
-    BDB_INCLUDE_PATH=/usr/local/opt/berkeley-db4/include
-    BDB_LIB_PATH=/usr/local/opt/berkeley-db4/lib
-
-    OPENSSL_INCLUDE_PATH=/usr/local/opt/openssl/include
-    OPENSSL_LIB_PATH=/usr/local/opt/openssl/lib
-
-    MINIUPNPC_INCLUDE_PATH=/usr/local/include
-    MINIUPNPC_LIB_PATH=/usr/local/lib
-
-    QRENCODE_INCLUDE_PATH=/usr/local/opt/qrencode/include
-    QRENCODE_LIB_PATH=/usr/local/opt/qrencode/lib
 
     DEFINES += IS_ARCH_64
-    QMAKE_CXXFLAGS += -arch x86_64 -stdlib=libc++
+    QMAKE_CXXFLAGS += -arch x86_64
     QMAKE_CFLAGS += -arch x86_64
-    QMAKE_LFLAGS += -arch x86_64 -stdlib=libc++
+    QMAKE_LFLAGS += -arch x86_64
 }
 
 # use: qmake "RELEASE=1"
 contains(RELEASE, 1) {
-    SDK=/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.7.sdk
     # Mac: compile for maximum compatibility (10.7, 32-bit)
-    macx:QMAKE_CXXFLAGS += -mmacosx-version-min=10.7 -isysroot $$SDK
-    macx:QMAKE_CFLAGS += -mmacosx-version-min=10.7 -isysroot $$SDK
-    macx:QMAKE_OBJECTIVE_CFLAGS += -mmacosx-version-min=10.7 $$SDK
+    macx:QMAKE_CXXFLAGS += -mmacosx-version-min=10.7 -arch x86_64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.7.sdk
+    macx:QMAKE_CFLAGS += -mmacosx-version-min=10.7 -arch x86_64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.7.sdk
+    macx:QMAKE_OBJECTIVE_CFLAGS += -mmacosx-version-min=10.7 -arch x86_64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.7.sdk
 
     !windows:!macx {
         # Linux: static link
@@ -129,18 +111,6 @@ contains(USE_DBUS, 1) {
     QT += dbus
 }
 
-# use: qmake "USE_IPV6=1" ( enabled by default; default)
-#  or: qmake "USE_IPV6=0" (disabled by default)
-#  or: qmake "USE_IPV6=-" (not supported)
-contains(USE_IPV6, -) {
-    message(Building without IPv6 support)
-} else {
-    count(USE_IPV6, 0) {
-        USE_IPV6=1
-    }
-    DEFINES += USE_IPV6=$$USE_IPV6
-}
-
 contains(BITCOIN_NEED_QT_PLUGINS, 1) {
     DEFINES += BITCOIN_NEED_QT_PLUGINS
     QTPLUGIN += qcncodecs qjpcodecs qtwcodecs qkrcodecs qtaccessiblewidgets
@@ -168,7 +138,7 @@ QMAKE_EXTRA_TARGETS += genleveldb
 QMAKE_CLEAN += $$PWD/src/leveldb/libleveldb.a; cd $$PWD/src/leveldb ; $(MAKE) clean
 
 # regenerate src/build.h
-!win32|contains(USE_BUILD_INFO, 1) {
+!windows|contains(USE_BUILD_INFO, 1) {
     genbuild.depends = FORCE
     genbuild.commands = cd $$PWD; /bin/sh share/genbuild.sh $$OUT_PWD/build/build.h
     genbuild.target = $$OUT_PWD/build/build.h
@@ -200,9 +170,9 @@ HEADERS += src/qt/bitcoingui.h \
     src/qt/transactiontablemodel.h \
     src/qt/addresstablemodel.h \
     src/qt/optionsdialog.h \
-    src/qt/sendcoinsdialog.h \
     src/qt/coincontroldialog.h \
     src/qt/coincontroltreewidget.h \
+    src/qt/sendcoinsdialog.h \
     src/qt/addressbookpage.h \
     src/qt/signverifymessagedialog.h \
     src/qt/aboutdialog.h \
@@ -213,8 +183,8 @@ HEADERS += src/qt/bitcoingui.h \
     src/base58.h \
     src/bignum.h \
     src/checkpoints.h \
-    src/coincontrol.h \
     src/compat.h \
+    src/coincontrol.h \
     src/sync.h \
     src/util.h \
     src/uint256.h \
@@ -284,8 +254,7 @@ HEADERS += src/qt/bitcoingui.h \
     src/qt/plugins/mrichtexteditor/mrichtextedit.h \
     src/qt/qvalidatedtextedit.h
 
-SOURCES += src/qt/bitcoin.cpp \
-    src/qt/bitcoingui.cpp \
+SOURCES += src/qt/bitcoin.cpp src/qt/bitcoingui.cpp \
     src/qt/transactiontablemodel.cpp \
     src/qt/addresstablemodel.cpp \
     src/qt/optionsdialog.cpp \
@@ -363,10 +332,12 @@ SOURCES += src/qt/bitcoin.cpp \
     src/pbkdf2.cpp \
     src/stealth.cpp
 
-RESOURCES += src/qt/bitcoin.qrc
+RESOURCES += \
+    src/qt/bitcoin.qrc 
 
-FORMS += src/qt/forms/sendcoinsdialog.ui \
+FORMS += \
     src/qt/forms/coincontroldialog.ui \
+    src/qt/forms/sendcoinsdialog.ui \
     src/qt/forms/addressbookpage.ui \
     src/qt/forms/signverifymessagedialog.ui \
     src/qt/forms/aboutdialog.ui \
@@ -442,10 +413,10 @@ isEmpty(BOOST_INCLUDE_PATH) {
     macx:BOOST_INCLUDE_PATH = /opt/local/include
 }
 
-win32:DEFINES += WIN32
-win32:RC_FILE = src/qt/res/bitcoin-qt.rc
+windows:DEFINES += WIN32
+windows:RC_FILE = src/qt/res/bitcoin-qt.rc
 
-win32:!contains(MINGW_THREAD_BUGFIX, 0) {
+windows:!contains(MINGW_THREAD_BUGFIX, 0) {
     # At least qmake's win32-g++-cross profile is missing the -lmingwthrd
     # thread-safety flag. GCC has -mthreads to enable this, but it doesn't
     # work with static linking. -lmingwthrd must come BEFORE -lmingw, so
@@ -454,13 +425,6 @@ win32:!contains(MINGW_THREAD_BUGFIX, 0) {
     # any problems on some untested qmake profile now or in the future.
     DEFINES += _MT BOOST_THREAD_PROVIDES_GENERIC_SHARED_MUTEX_ON_WIN
     QMAKE_LIBS_QT_ENTRY = -lmingwthrd $$QMAKE_LIBS_QT_ENTRY
-}
-
-!win32:!macx {
-    DEFINES += LINUX
-    LIBS += -lrt
-    # _FILE_OFFSET_BITS=64 lets 32-bit fopen transparently support large files.
-    DEFINES += _FILE_OFFSET_BITS=64
 }
 
 macx:HEADERS += src/qt/macdockiconhandler.h \
@@ -480,19 +444,18 @@ INCLUDEPATH += $$BOOST_INCLUDE_PATH $$BDB_INCLUDE_PATH $$OPENSSL_INCLUDE_PATH $$
 LIBS += $$join(BOOST_LIB_PATH,,-L,) $$join(BDB_LIB_PATH,,-L,) $$join(OPENSSL_LIB_PATH,,-L,) $$join(QRENCODE_LIB_PATH,,-L,)
 LIBS += -lssl -lcrypto -ldb_cxx$$BDB_LIB_SUFFIX
 # -lgdi32 has to happen after -lcrypto (see  #681)
-win32:LIBS += -lws2_32 -lshlwapi -lmswsock -lole32 -loleaut32 -luuid -lgdi32
+windows:LIBS += -lws2_32 -lshlwapi -lmswsock -lole32 -loleaut32 -luuid -lgdi32
 LIBS += -lboost_system$$BOOST_LIB_SUFFIX -lboost_filesystem$$BOOST_LIB_SUFFIX -lboost_program_options$$BOOST_LIB_SUFFIX -lboost_thread$$BOOST_THREAD_LIB_SUFFIX
-win32:LIBS += -lboost_chrono$$BOOST_LIB_SUFFIX
-macx:LIBS += -lboost_chrono$$BOOST_LIB_SUFFIX
+windows:LIBS += -lboost_chrono$$BOOST_LIB_SUFFIX
 
 contains(RELEASE, 1) {
-    !win32:!macx {
+    !windows:!macx {
         # Linux: turn dynamic linking back on for c/c++ runtime libraries
         LIBS += -Wl,-Bdynamic
     }
 }
 
-!win32:!macx {
+!windows:!macx {
     DEFINES += LINUX
     LIBS += -lrt -ldl
 }

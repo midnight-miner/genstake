@@ -37,7 +37,7 @@ SendCoinsDialog::SendCoinsDialog(QWidget *parent) :
 
 #if QT_VERSION >= 0x040700
     /* Do not move this to the XML file, Qt before 4.7 will choke on it */
-    ui->lineEditCoinControlChange->setPlaceholderText(tr("Enter a Genstake address (e.g. GSvoDm9PjtPPii81cZWjG8LPShZGKYktE4)"));
+    ui->lineEditCoinControlChange->setPlaceholderText(tr("Enter a Genstake address (e.g. JXywGBZBowrppUwwNUo1GCRDTibzJi7g2M)"));
 	ui->splitBlockLineEdit->setPlaceholderText(tr("# of Blocks"));
 	ui->splitBlockCheckBox->setToolTip(tr("Enable/Disable Block Splitting"));
 	ui->returnChangeCheckBox->setToolTip(tr("Use your sending address as the change address"));

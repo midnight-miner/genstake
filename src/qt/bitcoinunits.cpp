@@ -45,9 +45,9 @@ QString BitcoinUnits::description(int unit)
 {
     switch(unit)
     {
-    case BTC: return QString("Genstakes");
-    case mBTC: return QString("Milli-Genstakes (1 / 1,000)");
-    case uBTC: return QString("Micro-Genstakes (1 / 1,000,000)");
+    case BTC: return QString("Gens");
+    case mBTC: return QString("Milli-Gens (1 / 1,000)");
+    case uBTC: return QString("Micro-Gens (1 / 1,000,000)");
     default: return QString("???");
     }
 }
