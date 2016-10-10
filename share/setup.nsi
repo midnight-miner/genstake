@@ -5,7 +5,7 @@ SetCompressor /SOLID lzma
 
 # General Symbol Definitions
 !define REGKEY "SOFTWARE\$(^Name)"
-!define VERSION 1.0.4.0
+!define VERSION 1.0.5.0
 !define COMPANY "GenStake project"
 !define URL http://www.g3n.info/
 
@@ -73,8 +73,14 @@ Section -Main SEC0000
     File /r ../src/qt/res/themes/*.*
     SetOutPath $INSTDIR\daemon
     File ../src/genstaked.exe
+    SetOutPath $INSTDIR\src
+    File /r /x *.exe /x *.o ../src\*.*
     SetOutPath $INSTDIR
     WriteRegStr HKCU "${REGKEY}\Components" Main 1
+
+    # Remove old wxwidgets-based-bitcoin executable and locales:
+    #Delete /REBOOTOK $INSTDIR\genstake.exe
+    #RMDir /r /REBOOTOK $INSTDIR\locale
 SectionEnd
 
 Section -post SEC0001
@@ -83,8 +89,7 @@ Section -post SEC0001
     WriteUninstaller $INSTDIR\uninstall.exe
     !insertmacro MUI_STARTMENU_WRITE_BEGIN Application
     CreateDirectory $SMPROGRAMS\$StartMenuGroup
-    CreateShortcut "$SMPROGRAMS\$StartMenuGroup\$(^Name).lnk" $INSTDIR\GenStake-qt.exe
-    CreateShortcut "$SMPROGRAMS\$StartMenuGroup\Uninstall $(^Name).lnk" $INSTDIR\uninstall.exe
+    CreateShortcut "$SMPROGRAMS\$StartMenuGroup\Uninstall Genstakelnk" $INSTDIR\uninstall.exe
     !insertmacro MUI_STARTMENU_WRITE_END
     WriteRegStr HKCU "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\$(^Name)" DisplayName "$(^Name)"
     WriteRegStr HKCU "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\$(^Name)" DisplayVersion "${VERSION}"
@@ -119,6 +124,7 @@ Section /o -un.Main UNSEC0000
     Delete /REBOOTOK $INSTDIR\license.txt
     Delete /REBOOTOK $INSTDIR\readme.txt
     RMDir /r /REBOOTOK $INSTDIR\daemon
+    RMDir /r /REBOOTOK $INSTDIR\src
     RMDir /r /REBOOTOK $INSTDIR\themes
     DeleteRegValue HKCU "${REGKEY}\Components" Main
 SectionEnd
